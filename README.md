@@ -92,13 +92,14 @@ To get real-world units, set the microns-per-pixel for the 10× objective once, 
 
 ```python
 CALIBRATION_UM_PER_PX = {
-    "10x": 0.745,   # = (a known length in microns) / (that length in pixels)
+    "10x": 0.745,   # ships as None; fill in (known length in microns) / (that length in pixels)
 }
 ```
 
-with the value read off a stage micrometer or the vendor spec. Until you do, the
-`*_um` columns stay `NaN` and the code warns — the analysis still works, just in
-pixel units. Pass it through with `Params(um_per_px=CALIBRATION_UM_PER_PX["10x"])`.
+with the value read off a stage micrometer or the vendor spec. Until you do,
+`area_um2` is reported as `NaN` and the other `*_um` columns are simply not
+produced — the analysis still works, just in pixel units. Pass the value through
+with `Params(um_per_px=CALIBRATION_UM_PER_PX["10x"])`.
 
 ## Metric definitions
 
@@ -136,8 +137,8 @@ matter scientifically:
   by a factor of ~`4/π`. Because circularity divides by `P²`, that pulled every
   value down by roughly `(π/4)² ≈ 0.62`. We use scikit-image's **Crofton**
   perimeter, which is close to unbiased. On the tutorial image the median
-  circularity moves from ~**0.55** (staircase) to ~**0.88** (Crofton). The
-  tutorial reproduces this side by side.
+  circularity moves from ~**0.55** (staircase) to ~**0.91** (Crofton) — a ~38%
+  upward correction. The tutorial reproduces this side by side.
 - **A `(green − red)` vessel detector.** The cyan stain is high in *both* green
   and blue, and the magenta tissue is high in *both* red and blue, so
   thresholding the **blue** channel (the old approach) can't cleanly separate

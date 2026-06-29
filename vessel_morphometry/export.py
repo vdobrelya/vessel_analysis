@@ -66,7 +66,11 @@ def vessel_svg(image_bgr, labels, df, path, p: Params = Params()) -> None:
             simplified = cv2.approxPolyDP(contour, p.svg_simplify_px, True).reshape(-1, 2)
             pts = " ".join(f"{x},{y}" for x, y in simplified)
             parts.append(f'<polygon points="{pts}"/>')
-    parts.append('</g><g fill="white" font-size="11" font-family="sans-serif">')
+    # White fill with a thin black outline so ids stay readable on bright lumens
+    # and dark tissue alike. paint-order="stroke" draws the black outline first,
+    # so it sits behind the white glyph as a clean halo rather than over it.
+    parts.append('</g><g fill="white" stroke="black" stroke-width="0.6" '
+                 'paint-order="stroke" font-size="11" font-family="sans-serif">')
     for _, row in df.iterrows():
         parts.append(f'<text x="{row.cx:.0f}" y="{row.cy:.0f}">{int(row.vessel_id)}</text>')
     parts.append("</g></svg>")

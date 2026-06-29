@@ -23,5 +23,12 @@ dependencies = [
     "jupyter",
 ]
 
+[project.optional-dependencies]
+# Reading the printed "<N> µm" labels is optional. rapidocr-onnxruntime is pure
+# pip (numpy / onnxruntime / opencv, NO system binary) and ships its models in the
+# wheel. Without it, calibration degrades to bar-only and you can fill
+# `label_um_manual` by hand. Install with: uv pip install -e ".[ocr]"
+ocr = ["rapidocr-onnxruntime"]
+
 [tool.hatch.build.targets.wheel]
 packages = ["vessel_morphometry"]

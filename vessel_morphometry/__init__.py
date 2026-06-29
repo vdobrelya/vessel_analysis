@@ -15,11 +15,13 @@ import cv2
 from .config import CALIBRATION_UM_PER_PX, Params
 from .measure import measure, parse_name, vessel_area_fraction
 from .segment import segment, vesselness
-from . import export
+from .calibrate import calibrate_image, read_label, um_per_px_lookup
+from . import calibrate, export
 
 __all__ = [
     "Params", "CALIBRATION_UM_PER_PX",
     "segment", "vesselness", "measure", "vessel_area_fraction", "parse_name",
+    "calibrate", "calibrate_image", "read_label", "um_per_px_lookup",
     "export", "run",
 ]
 

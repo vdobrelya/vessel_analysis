@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Item xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/LeicaMicrosystems.DataEntities.V3_2">
+  <Id>fe5449e9-00e0-46c3-8178-9bfd81e1a488</Id>
+  <ParentId>e5cbdf5e-c3c8-4760-b8fb-b8e22330532b</ParentId>
+  <LinkedItemId i:nil="true" />
+  <Type>Collection</Type>
+  <SubType>Image</SubType>
+  <Index i:nil="true" />
+  <Name>STURT_SHED_T7_3_10x.png</Name>
+  <FolderTypeId i:nil="true" />
+  <Keywords></Keywords>
+  <LastModifiedDate>2023-01-06T15:15:05.6506996+11:00</LastModifiedDate>
+  <Owner i:nil="true" />
+  <Reader i:nil="true" />
+  <Children>
+    <Item>
+      <Id>916ed28d-499e-425b-8464-fc65500df916</Id>
+      <ParentId>fe5449e9-00e0-46c3-8178-9bfd81e1a488</ParentId>
+      <LinkedItemId i:nil="true" />
+      <Type>Leaf</Type>
+      <SubType>Image</SubType>
+      <Index i:nil="true" />
+      <Name>STURT_SHED_T7_3_10x.png</Name>
+      <FolderTypeId i:nil="true" />
+      <Keywords></Keywords>
+      <LastModifiedDate>2023-01-06T15:15:05.5958986+11:00</LastModifiedDate>
+      <Owner i:nil="true" />
+      <Reader i:nil="true" />
+      <Children>
+        <Item>
+          <Id>3f31eb5c-eb99-475f-ab7c-b95de30c6735</Id>
+          <ParentId>916ed28d-499e-425b-8464-fc65500df916</ParentId>
+          <LinkedItemId i:nil="true" />
+          <Type>Derived</Type>
+          <SubType>Image</SubType>
+          <Index i:nil="true" />
+          <Name>STURT_SHED_T7_3_10x.png.thb</Name>
+          <FolderTypeId i:nil="true" />
+          <Keywords></Keywords>
+          <LastModifiedDate>2023-01-06T15:15:05.5958986+11:00</LastModifiedDate>
+          <Owner i:nil="true" />
+          <Reader i:nil="true" />
+        </Item>
+      </Children>
+    </Item>
+    <Item>
+      <Id>2dfbb9e9-f4bc-4e84-aa09-206481b43c50</Id>
+      <ParentId>fe5449e9-00e0-46c3-8178-9bfd81e1a488</ParentId>
+      <LinkedItemId i:nil="true" />
+      <Type>Leaf</Type>
+      <SubType>DXAnnotationData</SubType>
+      <Index i:nil="true" />
+      <Name>STURT_SHED_T7_3_10x.png.anx</Name>
+      <FolderTypeId i:nil="true" />
+      <Keywords></Keywords>
+      <LastModifiedDate>2023-01-06T15:15:00.488943+11:00</LastModifiedDate>
+      <Owner i:nil="true" />
+      <Reader i:nil="true" />
+    </Item>
+    <Item>
+      <Id>b39680b4-3511-4f27-ac69-045ec844b4a8</Id>
+      <ParentId>fe5449e9-00e0-46c3-8178-9bfd81e1a488</ParentId>
+      <LinkedItemId i:nil="true" />
+      <Type>Leaf</Type>
+      <SubType>DXScaleBarSettingsData</SubType>
+      <Index i:nil="true" />
+      <Name>STURT_SHED_T7_3_10x.png.sbx</Name>
+      <FolderTypeId i:nil="true" />
+      <Keywords></Keywords>
+      <LastModifiedDate>2023-01-06T15:15:00.4929347+11:00</LastModifiedDate>
+      <Owner i:nil="true" />
+      <Reader i:nil="true" />
+    </Item>
+    <Item>
+      <Id>ac8f64b8-b721-48c9-88d6-9cd9a12b6137</Id>
+      <ParentId>fe5449e9-00e0-46c3-8178-9bfd81e1a488</ParentId>
+      <LinkedItemId i:nil="true" />
+      <Type>Leaf</Type>
+      <SubType>DXExtendedAnnotationData</SubType>
+      <Index i:nil="true" />
+      <Name>STURT_SHED_T7_3_10x.png.eax</Name>
+      <FolderTypeId i:nil="true" />
+      <Keywords></Keywords>
+      <LastModifiedDate>2023-01-06T15:15:00.4959269+11:00</LastModifiedDate>
+      <Owner i:nil="true" />
+      <Reader i:nil="true" />
+    </Item>
+  </Children>
+  <ItemValues>
+    <ItemValue>
+      <Id>9ec49a4e-cdf4-4a23-aede-7e6056e8d9e7</Id>
+      <ItemId>309e9334-d013-4cd1-b579-e6299d482b27</ItemId>
+      <Name>Image_Description</Name>
+      <Value xmlns:d4p1="http://www.w3.org/2001/XMLSchema" i:type="d4p1:string"></Value>
+    </ItemValue>
+    <ItemValue>
+      <Id>4fff2b97-2880-4b29-b54e-aeb603bca06b</Id>
+      <ItemId>309e9334-d013-4cd1-b579-e6299d482b27</ItemId>
+      <Name>Image_Notes</Name>
+      <Value xmlns:d4p1="http://www.w3.org/2001/XMLSchema" i:type="d4p1:string"></Value>
+    </ItemValue>
+  </ItemValues>
+  <LasImage>
+    <Id>309e9334-d013-4cd1-b579-e6299d482b27</Id>
+    <Included>false</Included>
+    <Processed>true</Processed>
+    <UnitName>Microns</UnitName>
+    <CreationUserName>ADUNSW\z5242422</CreationUserName>
+    <ModificationUserName>ADUNSW\z5242422</ModificationUserName>
+    <AcquiredDate>2023-01-06T15:15:00.4360834+11:00</AcquiredDate>
+    <CreationDate>2023-01-06T15:15:00.4201263+11:00</CreationDate>
+    <ImportDate i:nil="true" />
+    <XMetresPerPixel>1.1699999809265136E-06</XMetresPerPixel>
+    <YMetresPerPixel>1.1699999809265136E-06</YMetresPerPixel>
+    <BitDepth>24</BitDepth>
+    <NumPixelsX>1024</NumPixelsX>
+    <NumPixelsY>768</NumPixelsY>
+    <FileSize>2359548</FileSize>
+    <DecimalPlaces>3</DecimalPlaces>
+    <Camera>
+      <Id>309e9334-d013-4cd1-b579-e6299d482b27</Id>
+      <Name>MC190 HD</Name>
+      <Serial_Number>2217131103</Serial_Number>
+      <Exposure>50.0 ms</Exposure>
+      <Gamma>0.70</Gamma>
+      <Gain>2.1 x</Gain>
+      <Auto_Exposure>On</Auto_Exposure>
+      <Brightness>41 %</Brightness>
+      <Black_Clip>0</Black_Clip>
+      <White_Clip>255</White_Clip>
+      <Image_Type>Colour</Image_Type>
+      <Capture_Format>1024 x 768</Capture_Format>
+      <Shading></Shading>
+      <Sharpening>Medium</Sharpening>
+    </Camera>
+    <ImageValues>
+      <ImageValue>
+        <Id>3306340d-8ea1-45c0-a743-27addc746245</Id>
+        <LasImageId>309e9334-d013-4cd1-b579-e6299d482b27</LasImageId>
+        <Name>Microscope_Stand_Name</Name>
+        <Type>System.String</Type>
+        <Value xmlns:d5p1="http://www.w3.org/2001/XMLSchema" i:type="d5p1:string">DM2000</Value>
+      </ImageValue>
+      <ImageValue>
+        <Id>19632879-3f88-4695-816f-3fa3709e6596</Id>
+        <LasImageId>309e9334-d013-4cd1-b579-e6299d482b27</LasImageId>
+        <Name>Microscope_Stand_Configuration_Software_Version_Infos</Name>
+        <Type>System.String</Type>
+        <Value xmlns:d5p1="http://www.w3.org/2001/XMLSchema" i:type="d5p1:string">O969F297</Value>
+      </ImageValue>
+      <ImageValue>
+        <Id>e06349b3-ed9c-4c45-bd11-c0b6a0a79eba</Id>
+        <LasImageId>309e9334-d013-4cd1-b579-e6299d482b27</LasImageId>
+        <Name>Microscope_Ports_Port_Name</Name>
+        <Type>System.String</Type>
+        <Value xmlns:d5p1="http://www.w3.org/2001/XMLSchema" i:type="d5p1:string">VISUAL</Value>
+      </ImageValue>
+      <ImageValue>
+        <Id>a778064e-d3c3-4855-896e-d999a1e50339</Id>
+        <LasImageId>309e9334-d013-4cd1-b579-e6299d482b27</LasImageId>
+        <Name>Microscope_Ports_Port_Magnification</Name>
+        <Type>System.String</Type>
+        <Value xmlns:d5p1="http://www.w3.org/2001/XMLSchema" i:type="d5p1:string">10</Value>
+      </ImageValue>
+      <ImageValue>
+        <Id>0af7ff9e-5a4b-4148-aaea-6c4433fcaf59</Id>
+        <LasImageId>309e9334-d013-4cd1-b579-e6299d482b27</LasImageId>
+        <Name>Microscope_Ports_Port_Article_No</Name>
+        <Type>System.String</Type>
+        <Value xmlns:d5p1="http://www.w3.org/2001/XMLSchema" i:type="d5p1:string">11507807</Value>
+      </ImageValue>
+      <ImageValue>
+        <Id>bcee7ccd-0373-4ab2-b255-dbaa72952339</Id>
+        <LasImageId>309e9334-d013-4cd1-b579-e6299d482b27</LasImageId>
+        <Name>Microscope_Ports_Article_No</Name>
+        <Type>System.String</Type>
+        <Value xmlns:d5p1="http://www.w3.org/2001/XMLSchema" i:type="d5p1:string">11501502</Value>
+      </ImageValue>
+      <ImageValue>
+        <Id>170ea69a-d429-4553-b8d2-d13ba450db94</Id>
+        <LasImageId>309e9334-d013-4cd1-b579-e6299d482b27</LasImageId>
+        <Name>Microscope_Ports_Num</Name>
+        <Type>System.String</Type>
+        <Value xmlns:d5p1="http://www.w3.org/2001/XMLSchema" i:type="d5p1:string">3</Value>
+      </ImageValue>
+      <ImageValue>
+        <Id>75cd6eb4-7cb8-4b6f-bbfd-f6221e0227b0</Id>
+        <LasImageId>309e9334-d013-4cd1-b579-e6299d482b27</LasImageId>
+        <Name>Microscope_Magchanger_Magnification</Name>
+        <Type>System.String</Type>
+        <Value xmlns:d5p1="http://www.w3.org/2001/XMLSchema" i:type="d5p1:string">1</Value>
+      </ImageValue>
+      <ImageValue>
+        <Id>ca9b3f22-8a07-4eae-97ae-7b6198f3ea7c</Id>
+        <LasImageId>309e9334-d013-4cd1-b579-e6299d482b27</LasImageId>
+        <Name>Microscope_Nosepiece_Objective_Magnification</Name>
+        <Type>System.String</Type>
+        <Value xmlns:d5p1="http://www.w3.org/2001/XMLSchema" i:type="d5p1:string">10</Value>
+      </ImageValue>
+      <ImageValue>
+        <Id>5b0d884f-b6e8-4c0c-9764-fd0540aaec02</Id>
+        <LasImageId>309e9334-d013-4cd1-b579-e6299d482b27</LasImageId>
+        <Name>Microscope_Nosepiece_Objective_Article_No</Name>
+        <Type>System.String</Type>
+        <Value xmlns:d5p1="http://www.w3.org/2001/XMLSchema" i:type="d5p1:string">11506084</Value>
+      </ImageValue>
+      <ImageValue>
+        <Id>9984fc32-b0fd-423d-baeb-0f1344abda80</Id>
+        <LasImageId>309e9334-d013-4cd1-b579-e6299d482b27</LasImageId>
+        <Name>Microscope_Nosepiece_Objective_Aperture</Name>
+        <Type>System.String</Type>
+        <Value xmlns:d5p1="http://www.w3.org/2001/XMLSchema" i:type="d5p1:string">0.25</Value>
+      </ImageValue>
+      <ImageValue>
+        <Id>7cc84254-3d96-43e4-805b-d870d2ab8793</Id>
+        <LasImageId>309e9334-d013-4cd1-b579-e6299d482b27</LasImageId>
+        <Name>Microscope_Nosepiece_Objective_Type</Name>
+        <Type>System.String</Type>
+        <Value xmlns:d5p1="http://www.w3.org/2001/XMLSchema" i:type="d5p1:string">DRY</Value>
+      </ImageValue>
+    </ImageValues>
+  </LasImage>
+</Item>

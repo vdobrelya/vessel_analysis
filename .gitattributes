@@ -1,0 +1,9 @@
+# Source data is read-only: never convert line endings or otherwise touch its
+# bytes (autocrlf must not rewrite the Leica .anx/.cal.xml/.eax/.sbx sidecars).
+data/** -text
+
+# Image formats are binary.
+*.png binary
+
+# Notebooks are large JSON; store verbatim to avoid autocrlf churn and keep diffs sane.
+*.ipynb -text

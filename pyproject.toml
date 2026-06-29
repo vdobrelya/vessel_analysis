@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "vessel-morphometry"
+version = "0.1.0"
+description = "Detect, measure, and vectorise stained xylem vessels in Mulga (Acacia aneura) cross-sections."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [{ name = "Valerie Dobrelya" }]
+keywords = ["microscopy", "morphometry", "xylem", "image-analysis", "plant-anatomy"]
+
+dependencies = [
+    "numpy",
+    "scipy",
+    "pandas",
+    "opencv-python-headless",
+    "scikit-image",
+    "matplotlib",
+    "seaborn",
+    "jupyter",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["vessel_morphometry"]

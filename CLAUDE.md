@@ -9,5 +9,8 @@
   segmentation, measurement, or export logic — especially the metric
   definitions — without flagging it explicitly. If something looks wrong,
   surface it rather than editing silently.
+- **`find_bar.py` (`find_scale_bar`, `white_mask`) is verified — use it as-is.**
+  Calibration OCR (`calibrate.py`, rapidocr-onnxruntime) is **optional**: it must
+  degrade to bar-only and never crash when rapidocr or its models are absent.
 - Keep notebook code student-readable: short cells, comments, no dense
   one-liners.

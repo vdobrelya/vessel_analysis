@@ -35,10 +35,14 @@ individual tree and the replicate section.
 
 ```
 vessel_morphometry/     the importable package (segment -> measure -> export)
-  config.py             calibration + tunable Params
+  config.py             calibration constant + tunable Params
   segment.py            (green - red) Otsu segmentation -> label image
   measure.py            regionprops-based shape metrics + filename parsing
   export.py             CSV / labelled PNG / QC overlay / editable SVG
+  find_bar.py           locate the white scale bar (verified; do not edit)
+  calibrate.py          read the µm label + turn bar length into µm/px
+scripts/
+  calibrate_dataset.py  scan every plate -> outputs/calibration.csv + verdict
 data/10x/               121 source PNGs  (READ-ONLY -- never modify)
 notebooks/
   1_tutorial.ipynb      one image, explained end to end + two "under the hood" sections
@@ -84,22 +88,42 @@ To run a notebook head-to-tail from the command line:
 uv run jupyter nbconvert --to notebook --execute --inplace notebooks/1_tutorial.ipynb
 ```
 
-## Calibration caveat (microns vs pixels)
+## Calibration: pixels → microns
 
-By default **every measurement is in pixels** and the `area_um2` column is `NaN`.
-To get real-world units, set the microns-per-pixel for the 10× objective once, in
-[`vessel_morphometry/config.py`](vessel_morphometry/config.py):
+Each plate carries a thin near-white **scale bar** (usually vertical at the right
+margin) with a "*N* µm" label. The reliable signal is the **bar's pixel length**,
+not the often-blurry number: `µm/px = label_µm / bar_px`. Generate a calibration
+table once:
 
-```python
-CALIBRATION_UM_PER_PX = {
-    "10x": 0.745,   # ships as None; fill in (known length in microns) / (that length in pixels)
-}
+```bash
+uv run python scripts/calibrate_dataset.py        # writes outputs/calibration.csv
 ```
 
-with the value read off a stage micrometer or the vendor spec. Until you do,
-`area_um2` is reported as `NaN` and the other `*_um` columns are simply not
-produced — the analysis still works, just in pixel units. Pass the value through
-with `Params(um_per_px=CALIBRATION_UM_PER_PX["10x"])`.
+It measures every bar, best-effort-reads each label, and prints the headline
+question — **is the scale constant or does it vary?** On this dataset it is
+**constant at ~1.167 µm/px** (inter-quartile spread < 1%), so the many unreadable
+labels do not matter: one value calibrates every plate. Each row is tagged `ok`,
+`bar_only` (bar found, label unreadable), `no_bar`, or `outlier` (label disagrees
+with the cohort — needs a look). Nothing is ever dropped, and no value is snapped
+to a list of "expected" lengths.
+
+**Reading the label uses OCR** (`rapidocr-onnxruntime`), which is **optional**:
+
+- Enable it with `uv pip install -e ".[ocr]"` — pure pip, **no system binary**;
+  the recognition models ship in the wheel (the first run may download and cache
+  them). Then labels are read automatically and rows become `ok`.
+- Without it, every bar is `bar_only`: the run still works and falls back to the
+  constant ~1.167 µm/px. You can also type a value into the blank
+  **`label_um_manual`** column of `outputs/calibration.csv` for any plate **that
+  has a bar**; the batch prefers it (`label_um_manual / bar_px`) over everything
+  else. (A `no_bar` plate has no pixel length, so a manual label there can't be
+  used and the row keeps the cohort value.)
+
+`2_batch.ipynb` reads `outputs/calibration.csv` and applies the per-image µm/px,
+filling `area_um2` and the `*_um` columns. If the CSV is missing, it falls back to
+the constant `CALIBRATION_UM_PER_PX["10x"]` in
+[`config.py`](vessel_morphometry/config.py) (which ships as `None`, leaving
+`area_um2` as `NaN`) and warns.
 
 ## Metric definitions
 

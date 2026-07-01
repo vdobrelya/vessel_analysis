@@ -14,3 +14,11 @@
   degrade to bar-only and never crash when rapidocr or its models are absent.
 - Keep notebook code student-readable: short cells, comments, no dense
   one-liners.
+
+## Potential improvements (not urgent — flag before doing)
+
+- **Single source of truth for the linear metrics in `measure.py`.** The names
+  `diam_major_px`, `diam_minor_px`, `feret_max_px`, `equiv_diam_px` are written
+  twice — once in the unit-conversion loop and once in the `order` list — so the
+  two can drift apart. Defining them once (e.g. a module-level list) and reusing
+  it in both places would give a single source of truth.

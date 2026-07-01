@@ -13,7 +13,7 @@ from dataclasses import dataclass
 # report pixels only (area_um2 will be NaN and the *_um columns are not produced).
 #   um_per_px = (a known length in microns) / (that length measured in pixels)
 CALIBRATION_UM_PER_PX = {
-    "10x": None,   # <-- fill in once known, e.g. 0.745
+    "10x": 1.163,   # cohort median from scripts/calibrate_dataset.py (~1.163 µm/px)
 }
 
 # Biological size window on the equivalent diameter (microns). Applied in
@@ -22,10 +22,10 @@ CALIBRATION_UM_PER_PX = {
 #   MIN = 0.0  keeps EVERY vessel (segmentation no longer has an implicit size
 #              bias); raise it to reproduce the old "large-vessels-only" output
 #              e.g. MIN = 11.0 drops the smallest lumens.
-#   MAX = 100.0 rejects implausibly large blobs - no real Acacia vessel exceeds
+#   MAX = 120.0 rejects implausibly large blobs - no real Acacia vessel exceeds
 #              this, so it also removes the overexposed slide-background blob.
 MIN_VESSEL_DIAMETER_UM = 0.0
-MAX_VESSEL_DIAMETER_UM = 100.0
+MAX_VESSEL_DIAMETER_UM = 120.0
 
 
 @dataclass

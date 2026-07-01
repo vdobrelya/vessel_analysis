@@ -37,7 +37,7 @@ individual tree and the replicate section.
 ```
 vessel_morphometry/     the importable package (segment -> measure -> export)
   config.py             calibration constant + tunable Params
-  segment.py            min(G, B) Otsu segmentation (cyan + white lumens) -> labels
+  segment.py            adaptive Otsu segmentation (G-R cyan / min(G,B) white) -> labels
   measure.py            regionprops-based shape metrics + filename parsing
   export.py             CSV / labelled PNG / QC overlay / editable SVG
   find_bar.py           locate the white scale bar (verified; do not edit)
@@ -165,17 +165,19 @@ matter scientifically:
   perimeter, which is close to unbiased. On the tutorial image the median
   circularity moves from ~**0.55** (staircase) to ~**0.91** (Crofton) — a ~38%
   upward correction. The tutorial reproduces this side by side.
-- **A `min(green, blue)` vessel detector that handles white *and* cyan lumens.**
-  Tissue is magenta — high red and blue but **low green** — so it is the only
-  thing weak in green. `min(G, B)` therefore stays high wherever *both* green and
-  blue are high (true of cyan lumens **and** of lumens that photographed pure
-  white) and low over tissue, and Otsu picks the threshold automatically. The
-  original blue-channel threshold couldn't separate the stains at all; the
-  interim `green − red` channel fixed cyan plates but silently failed on **white**
-  lumens (green ≈ red → `green − red ≈ 0`, so Otsu collapsed and the plate
-  returned ~0 vessels). `min(G, B)` recovers those plates. The scale bar and its
-  `<N> µm` label are white too, so `segment` blanks that region (via
-  `find_scale_bar`) before thresholding.
+- **An adaptive detector for cyan *and* white lumens.** Tissue is always magenta
+  (high red and blue, **low green**), but lumens photograph in two colours and no
+  single channel handles both. `green − red` keeps **cyan** plates clean
+  (subtracting red suppresses bluish tissue texture) yet collapses on **white**
+  lumens, where green ≈ red so `green − red ≈ 0` and the plate returns ~0 vessels.
+  `min(green, blue)` sees white lumens, but on cyan/blue-dense plates it also
+  passes blue tissue texture and badly over-segments. So `segment` chooses the
+  channel **per plate** from vessel colour — the mean red of the brightest ~1% of
+  pixels: red-rich (white) → `min(G, B)`, red-poor (cyan) → `green − red`
+  (threshold `WHITE_VESSEL_R_THRESHOLD`, default 150; the batch records the choice
+  in a `channel` column). The original blue-channel threshold couldn't separate
+  the stains at all. The scale bar and its `<N> µm` label are white too, so
+  `segment` blanks that region (via `find_scale_bar`) before thresholding.
 - **Size limits are explicit and in microns.** The channel swap removed the old
   implicit "large-vessels-only" bias, so vessel size is now filtered by
   `MIN_VESSEL_DIAMETER_UM` / `MAX_VESSEL_DIAMETER_UM` in

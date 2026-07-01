@@ -27,6 +27,13 @@ CALIBRATION_UM_PER_PX = {
 MIN_VESSEL_DIAMETER_UM = 0.0
 MAX_VESSEL_DIAMETER_UM = 120.0
 
+# Vessel-colour threshold for adaptive channel selection (see segment.py). If the
+# mean RED of the brightest ~1% of pixels (by luminance) exceeds this, the lumens
+# photographed WHITE (high in every channel) and segmentation uses min(G, B);
+# otherwise they are CYAN (low red) and it uses clip(G - R). Measured: cyan plates
+# ~50-90, white plates ~254 - so 150 sits safely in the gap.
+WHITE_VESSEL_R_THRESHOLD = 150
+
 
 @dataclass
 class Params:

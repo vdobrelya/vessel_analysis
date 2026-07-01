@@ -1,15 +1,20 @@
 """Turn a stained cross-section into a labelled image of vessel lumens.
 
-The separation channel is **min(green, blue)** - the "not-magenta" invariant. The
-surrounding tissue is magenta (high red and blue, but LOW green), so it is the
-only thing with weak green; min(G, B) therefore stays HIGH for any bright lumen -
-whether it photographed **cyan** (high green + blue) or **white** (high in every
-channel) - and LOW for tissue.
+The tissue is always magenta (high red and blue, but LOW green). The lumens,
+though, photograph in two different colours from plate to plate, and no single
+channel separates both cleanly:
 
-The old channel, clip(green - red), only lit up *cyan* lumens: on plates where the
-lumens came out white, green ≈ red so green - red ≈ 0, Otsu collapsed, and the
-plate returned almost no vessels. min(G, B) fixes that while still separating
-cyan from magenta.
+  * CYAN lumens (high green + blue, LOW red). Use **clip(green - red)**:
+    subtracting red suppresses non-green (bluish) tissue texture, so cyan plates
+    stay clean. But it COLLAPSES on white lumens - there green ~= red, so
+    green - red ~= 0, Otsu fails, and the plate returns almost no vessels.
+  * WHITE lumens (high in every channel). Use **min(green, blue)**: it stays high
+    for white (and cyan) lumens and low for magenta tissue. But on cyan/blue-dense
+    plates it ALSO passes bluish tissue texture and badly over-segments.
+
+So the channel is chosen PER PLATE from the vessels' colour (see choose_channel):
+white lumens -> min(G, B), cyan lumens -> clip(G - R). Everything downstream
+(annotation blanking, Otsu, opening, fill, noise floor) is identical either way.
 
 Only a small FIXED pixel noise floor is applied here; the biological size window
 lives in measure.py, where microns-per-pixel is known.
@@ -25,6 +30,7 @@ from skimage.measure import label
 from skimage.morphology import disk, opening
 from skimage.segmentation import watershed
 
+from . import config
 from .config import Params
 from .find_bar import find_scale_bar
 
@@ -36,14 +42,41 @@ _BAR_PAD_PX = 15
 _LABEL_REACH_PX = 90
 
 
-def vesselness(image_bgr: np.ndarray) -> np.ndarray:
-    """Single-channel image: bright lumens (cyan OR white) high, magenta tissue low.
+def _bright_red(image_bgr: np.ndarray) -> float:
+    """Mean RED of the brightest ~1% of pixels by luminance - a proxy for vessel
+    colour, since the lumens are the brightest thing on the slide. White lumens
+    score ~254 (high red), cyan lumens ~50-90 (low red).
 
-    min(G, B) is high only where BOTH green and blue are high - true of cyan and
-    white lumens - and low for magenta tissue, which is weak in green.
+    Uses `>=` the 99th percentile (not `>`): on plates where a saturated region
+    puts more than 1% of pixels at the maximum luminance, a strict `>` selects no
+    pixels and the mean is NaN - which would silently misclassify the plate.
+    """
+    b, g, r = cv2.split(image_bgr.astype(np.float64))
+    lum = 0.299 * r + 0.587 * g + 0.114 * b
+    return float(r[lum >= np.percentile(lum, 99)].mean())
+
+
+def choose_channel(image_bgr: np.ndarray) -> str:
+    """'min_gb' if the lumens are white, else 'g_minus_r' for cyan lumens.
+
+    Decided by the red level of the brightest pixels: white lumens are red-rich,
+    cyan lumens are red-poor (see the module docstring for why each channel suits
+    its colour). Recorded per image so QC can split counts by channel.
+    """
+    return "min_gb" if _bright_red(image_bgr) > config.WHITE_VESSEL_R_THRESHOLD else "g_minus_r"
+
+
+def vesselness(image_bgr: np.ndarray) -> np.ndarray:
+    """Single-channel image: bright lumens high, magenta tissue low.
+
+    The channel is chosen per plate by choose_channel(): min(G, B) for white
+    lumens, clip(G - R) for cyan lumens. Tissue is magenta - weak in green - so it
+    stays dark either way.
     """
     b, g, r = cv2.split(image_bgr.astype(np.int16))
-    return np.minimum(g, b).astype(np.uint8)
+    if choose_channel(image_bgr) == "min_gb":
+        return np.minimum(g, b).astype(np.uint8)      # white lumens
+    return np.clip(g - r, 0, 255).astype(np.uint8)    # cyan lumens
 
 
 def _blank_scale_bar(v: np.ndarray, bar: dict) -> None:

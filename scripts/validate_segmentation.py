@@ -28,6 +28,7 @@ SCALE = 1.163   # µm/px - constant across plates (see the calibration verdict)
 
 PLATES = [
     ("GUNDA_ACC_T4_1_10x", "cyan reference"),
+    ("STURT_SHED_T5_3_10x", "cyan / texture-prone"),
     ("GUNDA_ACC_T5_3_10x", "white lumens"),
     ("NOCO_ACC_T9_3_10x",  "white / washed-out"),
 ]
@@ -55,14 +56,16 @@ def blanked_mask(img):
     return canvas == 0
 
 
-print(f"scale = {SCALE} µm/px | MIN = {config.MIN_VESSEL_DIAMETER_UM} µm | "
-      f"MAX = {config.MAX_VESSEL_DIAMETER_UM} µm\n")
-print(f"{'plate':22s} {'regime':20s} {'n':>5s} {'median_dia':>11s} {'max_dia':>9s}")
-print("-" * 70)
+print(f"scale = {SCALE} µm/px | MAX = {config.MAX_VESSEL_DIAMETER_UM} µm | "
+      f"study MIN = 11 µm\n")
+print(f"{'plate':22s} {'regime':20s} {'channel':10s} {'n@MIN0':>7s} {'n@MIN11':>8s} {'med_dia':>8s}")
+print("-" * 82)
 for name, regime in PLATES:
-    _, df = measure_plate(name, 0.0)
-    ed = df["equiv_diam_um"]
-    print(f"{name:22s} {regime:20s} {len(df):5d} {ed.median():9.1f}um {ed.max():7.1f}um")
+    img, df0 = measure_plate(name, 0.0)
+    _, df11 = measure_plate(name, 11.0)
+    channel = vm.choose_channel(img)   # per-plate: g_minus_r (cyan) or min_gb (white)
+    print(f"{name:22s} {regime:20s} {channel:10s} {len(df0):7d} {len(df11):8d} "
+          f"{df0['equiv_diam_um'].median():6.1f}um")
 
 # --- guard 1: NOCO's overexposed background blob (~264 µm) must be rejected ---
 img, noco = measure_plate("NOCO_ACC_T9_3_10x", 0.0)

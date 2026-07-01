@@ -28,7 +28,7 @@ def find_scale_bar(img, min_len=40, max_thick=6, min_aspect=8, min_extent=0.7):
         if (long_ >= min_len and short_ <= max_thick
                 and long_ / short_ >= min_aspect
                 and p.extent >= min_extent
-                and long_ < 0.9 * max(H, W)):          # exclude full borders
+                and long_ < 0.9 * (H if h > w else W)):  # exclude full borders (bar's own axis)
             if best is None or long_ > best["length_px"]:
                 best = {"length_px": int(long_),
                         "orientation": "vertical" if h > w else "horizontal",

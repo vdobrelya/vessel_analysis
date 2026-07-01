@@ -81,7 +81,8 @@ def measure(labels, image_shape, p: Params = Params(), source: str | None = None
         df["source_image"], df["site"], df["group"], df["rainfall"] = source, site, group, rainfall
 
     order = ["source_image", "vessel_id", "circularity", "area_px", "area_um2",
-             "diam_major_px", "diam_minor_px", "feret_max_px", "equiv_diam_px",
+             "diam_major_px", "diam_major_um", "diam_minor_px", "diam_minor_um",
+             "feret_max_px", "feret_max_um", "equiv_diam_px", "equiv_diam_um",
              "aspect_ratio", "eccentricity", "solidity", "touches_border",
              "site", "group", "rainfall", "cx", "cy"]
     cols = [c for c in order if c in df.columns]

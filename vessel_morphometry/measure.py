@@ -16,6 +16,7 @@ import numpy as np
 import pandas as pd
 from skimage.measure import regionprops_table
 
+from . import config
 from .config import Params
 
 # Site code -> rainfall class, used by the cross-site analysis.
@@ -74,6 +75,18 @@ def measure(labels, image_shape, p: Params = Params(), source: str | None = None
             df[c.replace("_px", "_um")] = df[c] * s
     else:
         df["area_um2"] = np.nan
+
+    # --- biological size filter (equivalent diameter, microns) ---
+    # Convert the µm bounds to a pixel bound with this image's µm/px: per-image if
+    # calibrated, else the config constant. MIN = 0 keeps everything (segmentation
+    # has no implicit size bias now); MAX rejects over-large blobs such as the
+    # overexposed slide background. Size alone decides here - border-touching
+    # vessels are kept (only flagged). Skipped when no scale is available at all.
+    scale = p.um_per_px or config.CALIBRATION_UM_PER_PX.get("10x")
+    if scale:
+        lo_px = config.MIN_VESSEL_DIAMETER_UM / scale
+        hi_px = config.MAX_VESSEL_DIAMETER_UM / scale
+        df = df[(df["equiv_diam_px"] >= lo_px) & (df["equiv_diam_px"] <= hi_px)].copy()
 
     # experimental metadata
     if source is not None:

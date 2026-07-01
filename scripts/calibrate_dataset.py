@@ -33,7 +33,25 @@ FALLBACK_UM_PER_PX = 1.167          # measured: 150 µm / ~128.5 px
 CONSTANT_IQR_PCT = 5.0              # IQR <= this % of the median -> call it constant
 
 COLUMNS = ["image", "mag", "bar_found", "bar_px", "orientation", "bbox",
-           "label_ocr", "label_um", "um_per_px", "status", "label_um_manual"]
+           "label_ocr", "label_um", "um_per_px", "um_per_px_applied", "status",
+           "label_um_manual"]
+
+
+def applied_um_per_px(row, anchor):
+    """The µm/px the measure step actually uses, mirroring um_per_px_lookup:
+    a hand-entered label_um_manual wins, else the detected um_per_px for a trusted
+    'ok' row, else the cohort median. Shown beside the raw `um_per_px` so a flagged
+    row (outlier/bar_only/no_bar) displays the value truly applied (~cohort median)
+    next to its divergent raw read - the CSV then stops looking miscalibrated.
+    (label_um_manual is blank at generation, so this is um_per_px for ok rows and
+    the cohort median otherwise; fill the column and it takes over.)
+    """
+    manual, bar_px = row.get("label_um_manual"), row.get("bar_px")
+    if manual not in (None, "") and bar_px:
+        return float(manual) / float(bar_px)
+    if row["status"] == "ok" and row["um_per_px"] is not None:
+        return row["um_per_px"]
+    return anchor
 
 
 def scan(paths, progress=True):
@@ -61,8 +79,12 @@ def scan(paths, progress=True):
 def finalize(rows, fallback=FALLBACK_UM_PER_PX):
     """Pass 2: compute the cohort anchor, then fill um_per_px + status per row."""
     anchor, n_readable = cohort_anchor(rows, fallback=fallback)
-    rows = [apply_anchor(r, anchor) for r in rows]
-    return rows, anchor, n_readable
+    resolved = []
+    for r in rows:
+        r = apply_anchor(r, anchor)
+        r["um_per_px_applied"] = applied_um_per_px(r, anchor)
+        resolved.append(r)
+    return resolved, anchor, n_readable
 
 
 def summarize(rows, anchor, n_readable):
@@ -131,6 +153,7 @@ def write_csv(rows, path=OUT):
                 "label_ocr": r["label_ocr"] or "",
                 "label_um": "" if r["label_um"] is None else r["label_um"],
                 "um_per_px": "" if r["um_per_px"] is None else round(r["um_per_px"], 4),
+                "um_per_px_applied": round(r["um_per_px_applied"], 4),
                 "status": r["status"],
                 "label_um_manual": "",      # user-editable; blank by default
             })
